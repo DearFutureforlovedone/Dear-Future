@@ -1,110 +1,45 @@
-// App.js - Main application entry point
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StatusBar } from 'react-native';
-
-// Import screens
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import CalendarScreen from './screens/CalendarScreen';
-import MessageTypeScreen from './screens/MessageTypeScreen';
-import TextMessageScreen from './screens/TextMessageScreen';
-import AudioMessageScreen from './screens/AudioMessageScreen';
-import VideoMessageScreen from './screens/VideoMessageScreen';
-import GiftCatalogScreen from './screens/GiftCatalogScreen';
-import CartScreen from './screens/CartScreen';
-import PaymentScreen from './screens/PaymentScreen';
-import ConfirmationScreen from './screens/ConfirmationScreen';
-import AdminDashboardScreen from './screens/AdminDashboardScreen';
-import AdminProductScreen from './screens/AdminProductScreen';
-
-// Auth context
-import { AuthProvider } from './context/AuthContext';
-import { CartProvider } from './context/CartContext';
-
-const Stack = createStackNavigator();
-
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  const checkUserSession = async () => {
-    try {
-      const token = await AsyncStorage.getItem('userToken');
-      const userInfo = await AsyncStorage.getItem('userInfo');
-      
-   if (token && userInfo) {
-        const user = JSON.parse(userInfo);
-        setUserToken(token);
-        setIsAdmin(user.email === 'dearfutureforyourlovedone@gmail.com');
-      }
-      
-  setIsLoading(false);
-    } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    checkUserSession();
-  }, []);
-
-  if (isLoading) {
-    // Show a splash screen or loading indicator
-    return null;
-  }
-
-  return (
-    <AuthProvider>
-      <CartProvider>
-        <NavigationContainer>
-          <StatusBar backgroundColor="#FF8FAB" />
-          <Stack.Navigator 
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: '#FF8FAB',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }}
-          >
-            {userToken === null ? (
-              // Auth screens
-              <>
-                <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="Register" component={RegisterScreen} />
-                <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-              </>
-            ) : isAdmin ? (
-              // Admin screens
-              <>
-                <Stack.Screen name="AdminDashboard" component={AdminDashboardScreen} />
-                <Stack.Screen name="AdminProduct" component={AdminProductScreen} />
-              </>
-            ) : (
-              // User screens
-              <>
-                <Stack.Screen name="Calendar" component={CalendarScreen} />
-                <Stack.Screen name="MessageType" component={MessageTypeScreen} />
-                <Stack.Screen name="TextMessage" component={TextMessageScreen} />
-                <Stack.Screen name="AudioMessage" component={AudioMessageScreen} />
-                <Stack.Screen name="VideoMessage" component={VideoMessageScreen} />
-                <Stack.Screen name="GiftCatalog" component={GiftCatalogScreen} />
-                <Stack.Screen name="Cart" component={CartScreen} />
-                <Stack.Screen name="Payment" component={PaymentScreen} />
-                <Stack.Screen name="Confirmation" component={ConfirmationScreen} />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </CartProvider>
-    </AuthProvider>
-  );
+{
+  "name": "dear-future-frontend",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
+    "@react-native-async-storage/async-storage": "~1.17.3",
+    "@react-native-community/datetimepicker": "6.5.2",
+    "@react-native-community/netinfo": "9.3.5",
+    "@react-navigation/bottom-tabs": "^6.5.8",
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/stack": "^6.3.17",
+    "axios": "^1.4.0",
+    "expo": "~47.0.0",
+    "expo-av": "~13.0.3",
+    "expo-camera": "~13.1.0",
+    "expo-file-system": "~15.1.1",
+    "expo-image-picker": "~14.0.2",
+    "expo-status-bar": "~1.4.2",
+    "formik": "^2.4.2",
+    "moment": "^2.29.4",
+    "react": "18.1.0",
+    "react-native": "0.70.5",
+    "react-native-calendars": "^1.1298.0",
+    "react-native-gesture-handler": "~2.8.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-modal": "^13.0.1",
+    "react-native-reanimated": "~2.12.0",
+    "react-native-safe-area-context": "4.4.1",
+    "react-native-screens": "~3.18.0",
+    "react-native-svg": "13.4.0",
+    "yup": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "private": true
 }
